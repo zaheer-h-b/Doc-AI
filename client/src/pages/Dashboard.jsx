@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./Dashboard.css";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Dashboard() {
@@ -26,11 +27,7 @@ function Dashboard() {
   const [chatLoading, setChatLoading] = useState(false);
 
   const [openMenuId, setOpenMenuId] = useState(null);
-
-  // Inline delete confirmation
   const [deleteChatId, setDeleteChatId] = useState(null);
-
-  // Inline logout confirmation
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const chatEndRef = useRef(null);
@@ -78,7 +75,6 @@ function Dashboard() {
     });
   }, [messages, chatLoading]);
 
-  // Handle browser back button
   useEffect(() => {
     window.history.pushState(
       { dashboard: true },
@@ -109,7 +105,7 @@ function Dashboard() {
   const loadChats = async () => {
     try {
       const response = await axios.get(
-        "${API_URL}/api/chats",
+        `${API_URL}/api/chats`,
         config
       );
 
@@ -128,7 +124,7 @@ function Dashboard() {
   const handleNewChat = async () => {
     try {
       const response = await axios.post(
-        "${API_URL}/api/chats",
+        `${API_URL}/api/chats`,
         {},
         config
       );
@@ -262,7 +258,7 @@ function Dashboard() {
       );
 
       const response = await axios.post(
-        "${API_URL}/api/documents/upload",
+        `${API_URL}/api/documents/upload`,
         formData,
         {
           headers: {
@@ -345,7 +341,7 @@ function Dashboard() {
         activeChat.document;
 
       const response = await axios.post(
-        "${API_URL}/api/chats/ask",
+        `${API_URL}/api/chats/ask`,
         {
           question: userQuestion,
           documentId,
@@ -510,7 +506,6 @@ function Dashboard() {
                   </div>
                 </div>
 
-                {/* Inline Delete Confirmation */}
                 {deleteChatId === chat._id && (
                   <div className="inline-confirmation">
                     <p>
@@ -551,7 +546,6 @@ function Dashboard() {
               : "Light mode"}
           </button>
 
-          {/* Inline Logout Confirmation */}
           {showLogoutConfirm && (
             <div className="inline-logout-confirmation">
               <p>

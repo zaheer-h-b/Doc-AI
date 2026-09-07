@@ -4,6 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "./Auth.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Register() {
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ function Register() {
       setLoading(true);
 
       const response = await axios.post(
-        "${API_URL}/api/auth/register",
+        `${API_URL}/api/auth/register`,
         formData
       );
 
@@ -69,11 +71,11 @@ function Register() {
               DOCUMENT INTELLIGENCE
             </span>
 
-           <h1>
-          Understand your documents
-          <br />
-          faster.
-          </h1>
+            <h1>
+              Understand your documents
+              <br />
+              faster.
+            </h1>
 
             <p>
               Create your account and turn your
@@ -164,9 +166,7 @@ function Register() {
                     type="button"
                     className="password-toggle"
                     onClick={() =>
-                      setShowPassword(
-                        !showPassword
-                      )
+                      setShowPassword(!showPassword)
                     }
                     aria-label={
                       showPassword
@@ -191,7 +191,7 @@ function Register() {
             </form>
 
             <p className="auth-switch">
-              Already have an account?
+              Already have an account?{" "}
               <Link to="/login">
                 Sign in
               </Link>

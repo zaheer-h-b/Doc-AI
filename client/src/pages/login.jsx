@@ -4,6 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "./Auth.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Login() {
   const navigate = useNavigate();
 
@@ -34,7 +36,7 @@ function Login() {
       setLoading(true);
 
       const response = await axios.post(
-        "${API_URL}/api/auth/login",
+        `${API_URL}/api/auth/login`,
         formData
       );
 
@@ -152,9 +154,7 @@ function Login() {
                     type="button"
                     className="password-toggle"
                     onClick={() =>
-                      setShowPassword(
-                        !showPassword
-                      )
+                      setShowPassword(!showPassword)
                     }
                     aria-label={
                       showPassword
@@ -179,7 +179,7 @@ function Login() {
             </form>
 
             <p className="auth-switch">
-              Don't have an account?
+              Don't have an account?{" "}
               <Link to="/register">
                 Create an account
               </Link>
