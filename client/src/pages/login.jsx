@@ -2,6 +2,18 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { 
+  Sparkles, 
+  Mail, 
+  Lock, 
+  Eye, 
+  EyeOff, 
+  ArrowRight, 
+  ShieldCheck, 
+  CheckCircle2, 
+  FileText, 
+  Loader2 
+} from "lucide-react";
 import "./Auth.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -41,20 +53,16 @@ function Login() {
       );
 
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
-      );
-
-      toast.success(response.data.message);
+      toast.success(response.data.message || "Logged in successfully!");
 
       setTimeout(() => {
         navigate("/dashboard");
-      }, 800);
+      }, 600);
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Login failed"
+        error.response?.data?.message || "Invalid credentials. Please try again."
       );
     } finally {
       setLoading(false);
@@ -63,126 +71,158 @@ function Login() {
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
-        <section className="auth-brand">
-          <div className="brand-logo">Doc-AI</div>
+      <div className="auth-shell">
+        {/* Left Column: Product & Feature Showcase */}
+        <section className="auth-showcase">
+          <div className="showcase-glow-orb" />
+          <div className="showcase-glow-orb-2" />
 
-          <div className="brand-content">
-            <span className="brand-label">
-              DOCUMENT INTELLIGENCE
-            </span>
+          {/* Logo */}
+          <div className="auth-brand-logo">
+            <div className="brand-icon-box">
+              <Sparkles size={22} />
+            </div>
+            <div className="brand-title">
+              Doc-AI
+              <span className="brand-badge">2.0</span>
+            </div>
+          </div>
 
-            <h1>
-              Understand your
-              <br />
-              documents better.
+          {/* Center Showcase */}
+          <div className="showcase-content">
+            <div className="showcase-tag">
+              <Sparkles size={14} /> Intelligent Document Engine
+            </div>
+
+            <h1 className="showcase-title">
+              Understand your <br />
+              <span className="gradient-text">documents with AI.</span>
             </h1>
 
-            <p>
-              Upload your documents and ask questions
-              using AI-powered search and intelligent
-              answers.
+            <p className="showcase-desc">
+              Upload research papers, PDF reports, or lecture notes. Ask natural questions and get exact, source-referenced answers instantly.
             </p>
 
-            <div className="brand-features">
-              <div>
-                <span>01</span>
-                Upload your documents
+            {/* Interactive Mock Preview Card */}
+            <div className="mock-preview-card">
+              <div className="mock-card-header">
+                <div className="mock-doc-pill">
+                  <FileText size={16} color="#818cf8" />
+                  <span>OS_Full_Notes.pdf</span>
+                </div>
+                <span className="mock-status-pill">
+                  <CheckCircle2 size={12} /> Indexed
+                </span>
               </div>
 
-              <div>
-                <span>02</span>
-                Ask questions naturally
+              <div className="mock-msg-user">
+                What is priority job scheduling and starvation?
               </div>
 
-              <div>
-                <span>03</span>
-                Get answers from your documents
+              <div className="mock-msg-ai">
+                <span>
+                  Priority scheduling allocates CPU based on priority levels. Starvation occurs when low-priority jobs wait indefinitely, solved via <strong>aging</strong>.
+                </span>
+                <span className="mock-source-tag">Chapter 3 · Page 14</span>
               </div>
+            </div>
+          </div>
+
+          {/* Feature Highlights */}
+          <div className="showcase-features">
+            <div className="showcase-feature-item">
+              <ShieldCheck size={18} />
+              <span>Private & secure — your files are never used for training</span>
+            </div>
+            <div className="showcase-feature-item">
+              <CheckCircle2 size={18} />
+              <span>Powered by semantic vector embeddings & fast retrieval</span>
             </div>
           </div>
         </section>
 
-        <section className="auth-form-section">
-          <div className="auth-form-container">
-            <div className="auth-mobile-logo">
-              Doc-AI
+        {/* Right Column: Sign In Form */}
+        <section className="auth-form-column">
+          <div className="auth-form-wrap">
+            {/* Mobile Header */}
+            <div className="mobile-brand-header">
+              <div className="brand-icon-box" style={{ width: 36, height: 36 }}>
+                <Sparkles size={18} />
+              </div>
+              <span style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>Doc-AI</span>
             </div>
 
-            <div className="auth-heading">
-              <span>WELCOME BACK</span>
-
-              <h2>Sign in to your account</h2>
-
-              <p>
-                Continue where you left off.
-              </p>
+            <div className="auth-intro">
+              <span className="auth-intro-badge">WELCOME BACK</span>
+              <h2 className="auth-intro-title">Sign in to your account</h2>
+              <p className="auth-intro-sub">Continue chatting with your documents</p>
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="input-group">
-                <label>Email address</label>
-
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  autoComplete="email"
-                />
+              <div className="auth-field-group">
+                <label className="auth-label">Email address</label>
+                <div className="auth-input-container">
+                  <Mail size={18} className="auth-input-icon" />
+                  <input
+                    type="email"
+                    name="email"
+                    className="auth-input"
+                    placeholder="name@example.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    autoComplete="email"
+                    required
+                  />
+                </div>
               </div>
 
-              <div className="input-group">
-                <label>Password</label>
-
-                <div className="password-input-container">
+              <div className="auth-field-group">
+                <label className="auth-label">Password</label>
+                <div className="auth-input-container">
+                  <Lock size={18} className="auth-input-icon" />
                   <input
-                    type={
-                      showPassword
-                        ? "text"
-                        : "password"
-                    }
+                    type={showPassword ? "text" : "password"}
                     name="password"
+                    className="auth-input"
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleChange}
                     autoComplete="current-password"
+                    required
                   />
-
                   <button
                     type="button"
-                    className="password-toggle"
-                    onClick={() =>
-                      setShowPassword(!showPassword)
-                    }
-                    aria-label={
-                      showPassword
-                        ? "Hide password"
-                        : "Show password"
-                    }
+                    className="auth-password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? "◉" : "○"}
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="auth-submit-button"
+                className="auth-submit-btn"
                 disabled={loading}
               >
-                {loading
-                  ? "Signing in..."
-                  : "Sign In"}
+                {loading ? (
+                  <>
+                    <Loader2 size={18} className="spinner" />
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Sign In</span>
+                    <ArrowRight size={18} />
+                  </>
+                )}
               </button>
             </form>
 
-            <p className="auth-switch">
-              Don't have an account?{" "}
-              <Link to="/register">
-                Create an account
-              </Link>
+            <p className="auth-switch-link">
+              Don't have an account yet?{" "}
+              <Link to="/register">Create an account</Link>
             </p>
           </div>
         </section>
