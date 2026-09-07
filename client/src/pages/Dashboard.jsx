@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./Dashboard.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -108,7 +109,7 @@ function Dashboard() {
   const loadChats = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/chats",
+        "${API_URL}/api/chats",
         config
       );
 
@@ -127,7 +128,7 @@ function Dashboard() {
   const handleNewChat = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/chats",
+        "${API_URL}/api/chats",
         {},
         config
       );
@@ -155,7 +156,7 @@ function Dashboard() {
   const handleOpenChat = async (chatId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/chats/${chatId}`,
+        `${API_URL}/api/chats/${chatId}`,
         config
       );
 
@@ -185,7 +186,7 @@ function Dashboard() {
   const handleDeleteChat = async (chatId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/chats/${chatId}`,
+        `${API_URL}/api/chats/${chatId}`,
         config
       );
 
@@ -261,7 +262,7 @@ function Dashboard() {
       );
 
       const response = await axios.post(
-        "http://localhost:5000/api/documents/upload",
+        "${API_URL}/api/documents/upload",
         formData,
         {
           headers: {
@@ -344,7 +345,7 @@ function Dashboard() {
         activeChat.document;
 
       const response = await axios.post(
-        "http://localhost:5000/api/chats/ask",
+        "${API_URL}/api/chats/ask",
         {
           question: userQuestion,
           documentId,
